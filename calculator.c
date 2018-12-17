@@ -7,12 +7,16 @@ int main()
   int option = 0;
   double result = 0;
   printf("Calculator\n==========\n");
-  printoption();
-  result = getinputandcalculate(&option);
-  if(option != -1)
+
+  do
   {
-    printf("\nDas Ergebnis beträgt %.1f.\n", result);
-  }
+    printoption();
+    result = getinputandcalculate(&option);
+    if(option != -1)
+    {
+      printf("\nDas Ergebnis beträgt %.1f.\n", result);
+    }
+  }while(option != -1);
   return 0;
 }
 
@@ -36,13 +40,22 @@ double getinputandcalculate(int *option)
     scanf("%d", option);
   }
 
+  if(*option == -1)
+  {
+    return 0;
+  }
+
   printf("\nBitte geben Sie die erste Zahl ein: ");
   scanf("%lf", &firstnumber);
   checkfornumber(&firstnumber);
 
   printf("\nBitte geben Sie die zweite Zahl ein: ");
   scanf("%lf", &secondnumber);
-  checkfornumber(&secondnumber);
+
+  if(*option != 4)
+  {
+    checkfornumber(&secondnumber);
+  }
 
   switch(*option)
   {
@@ -56,6 +69,11 @@ double getinputandcalculate(int *option)
       return Multiply(firstnumber, secondnumber);
     break;
     case 4:
+      while(secondnumber == 0)
+      {
+        printf("Dividieren durch 0 ist verboten!\n Zeite Zahl neu eingeben: ");
+        scanf("%lf", &secondnumber);
+      }
       return Divide(firstnumber, secondnumber);
     break;
     default:
@@ -80,12 +98,6 @@ double Multiply(double firstnumber, double secondnumber)
 
 double Divide(double firstnumber, double secondnumber)
 {
-  while(secondnumber != 0)
-  {
-    printf("Dividieren durch 0 ist verboten!\n Zeite Zahl neu eingeben: ");
-    scanf("%lf", &secondnumber);
-  }
-
   return firstnumber / secondnumber;
 }
 
